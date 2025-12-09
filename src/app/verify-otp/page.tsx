@@ -9,8 +9,9 @@ import InputError from "@/components/ui/InputError";
 export default function VerifyOtpPage() {
     const router = useRouter();
     const inputRefs = useRef<HTMLInputElement[]>([]);
-    //  email state
+    //  email state and has reset email state
     const [email, setEmail] = useState<string>("");
+    const [hasResetEmail, setHasResetEmail] = useState<boolean>(false);
 
     //  otp state
     const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
@@ -22,6 +23,11 @@ export default function VerifyOtpPage() {
 
     // Error State
     const [otpError, setOtpError] = useState<string>("");
+
+    useEffect(() => {
+        const resetEmail = localStorage.getItem("resetEmail");
+        setHasResetEmail(!!resetEmail);
+    }, []);
 
     useEffect(() => {
         // fetching email type for verification
@@ -113,7 +119,7 @@ export default function VerifyOtpPage() {
         >
             <p className="text-gray-400 text-xs -mt-3 mb-4">{email}</p>
 
-            {localStorage.getItem("resetEmail") &&
+            {hasResetEmail &&
                 <button
                     onClick={() => router.push("/forgot-password")}
                     className="text-[#8854C0] text-xs hover:underline mb-3 "
