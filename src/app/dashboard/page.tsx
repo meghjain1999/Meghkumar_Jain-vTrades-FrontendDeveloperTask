@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { getUserByEmail } from "@/lib/mockDB";
-
+import ScreenLayout from "@/components/ScreenLayout";
 export default function Dashboard() {
     const router = useRouter();
     const { data: session, status } = useSession();
@@ -63,19 +63,10 @@ export default function Dashboard() {
         );
     }
     return (
-        <div className="p-6 text-white flex flex-col  justify-center items-center h-screen">
-            <h1 className="text-3xl font-bold">
-                Hello, {name}! 👋
-            </h1>
-            <p className="text-lg mt-2 text-gray-300">
-                Welcome back to the WorkHive Dashboard.
-            </p>
-            <button
-                onClick={handleLogout}
-                className="mt-6 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white"
-            >
-                Logout
-            </button>
-        </div>
+        <ScreenLayout userName={name} logoutFunction={() => { handleLogout() }}>
+            <div className="p-6 text-white flex flex-col h-full justify-center items-center">
+                <h1>Dashboard Screen</h1>
+            </div>
+        </ScreenLayout>
     );
 }
